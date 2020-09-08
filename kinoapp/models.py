@@ -1,3 +1,4 @@
 from django.db import models
 
-# Create your models here.
+class Kino(models.Model):
+    tytul = models.CharField(max_length = 64)
