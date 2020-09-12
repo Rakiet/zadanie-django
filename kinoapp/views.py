@@ -23,4 +23,14 @@ def edytuj_film(request, id):
         form.save()
         return redirect(wszystkie_filmy)
     return render(request, 'film_form.html', {'form': form})
+
+def usun_film(request, id):
+    film = get_object_or_404(Kino, pk=id)
+
+    if request.method == "POST":
+        film.delete()
+        return redirect(wszystkie_filmy)
+
+    return render(request, 'potwierdz.html', {'film': film})
+
 # Create your views here.
