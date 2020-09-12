@@ -1,5 +1,5 @@
 from django.urls import path
-from kinoapp.views import wszystkie_filmy, nowy_film
+from kinoapp.views import wszystkie_filmy, nowy_film, edytuj_film
 
 
 urlpatterns = [
