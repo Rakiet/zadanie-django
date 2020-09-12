@@ -13,6 +13,8 @@
     <h2>Ilość seansów w bazie danych: {{ filmy|length }}</h2>
     {% for film in filmy %}
         <p>{{ film }}</p>
+        <a href="{% url 'edytuj_film' film.id %}">Edytuj</a>
+        <a href="{% url 'usun_film' film.id %}">Usun</a>
     {% endfor %}
 </body>
 </html>
