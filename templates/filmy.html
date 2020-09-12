@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
+    <a href="{% url 'nowy_film' %}">Dodaj nowy film</a>
     <h2>Ilość seansów w bazie danych: {{ filmy|length }}</h2>
     {% for film in filmy %}
         <p>{{ film }}</p>
