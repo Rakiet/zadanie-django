@@ -12,7 +12,7 @@ def nowy_film(request):
 
     if form.is_valid():
         form.save()
-        redirect(wszystkie_filmy)
+        return redirect(wszystkie_filmy)
     return render(request, 'film_form.html', {'form': form})
 
 def edytuj_film(request, id):
@@ -21,6 +21,6 @@ def edytuj_film(request, id):
 
     if form.is_valid():
         form.save()
-        redirect(wszystkie_filmy)
+        return redirect(wszystkie_filmy)
     return render(request, 'film_form.html', {'form': form})
 # Create your views here.
