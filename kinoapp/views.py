@@ -2,11 +2,15 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpRequest
 from .models import Kino
 from .forms import KinoForm
+from django.contrib.auth.decorators import login_required
+
+
 
 def wszystkie_filmy(request):
     wszyskie = Kino.objects.all()
     return render(request, 'filmy.html', {'filmy': wszyskie})
 
+@login_required()
 def nowy_film(request):
     form = KinoForm(request.POST or None, request.FILES or None)
 
@@ -15,6 +19,7 @@ def nowy_film(request):
         return redirect(wszystkie_filmy)
     return render(request, 'film_form.html', {'form': form})
 
+@login_required()
 def edytuj_film(request, id):
     film = get_object_or_404(Kino, pk=id)
     form = KinoForm(request.POST or None, request.FILES or None, instance=film)
@@ -24,6 +29,7 @@ def edytuj_film(request, id):
         return redirect(wszystkie_filmy)
     return render(request, 'film_form.html', {'form': form})
 
+@login_required()
 def usun_film(request, id):
     film = get_object_or_404(Kino, pk=id)
 

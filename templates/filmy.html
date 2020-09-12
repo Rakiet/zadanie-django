@@ -1,15 +1,17 @@
-{% load static %}
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-</head>
-<body>
+{% extends 'glowny.html' %}
+
+{% block tytul %} Dostepne seanse {% endblock %}
+
+{% block strona %}
+    {% if user.is_authenticated %}
+        Witaj {{ user.username.capitalize }}<br>
+        <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+
+    <hr>
+
     <a href="{% url 'nowy_film' %}">Dodaj nowy film</a>
     <h2>Ilość seansów w bazie danych: {{ filmy|length }}</h2>
     {% for film in filmy %}
@@ -18,5 +20,4 @@
         <a href="{% url 'usun_film' film.id %}">Usun</a>
     {% endfor %}
     <a href="{% url 'wszystkie_filmy' %}">Cofnij</a>
-</body>
-</html>
+{% endblock %}
