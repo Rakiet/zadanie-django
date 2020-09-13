@@ -4,7 +4,7 @@
 
 {% block strona %}
 
-    <div class="card" style="width: 32rem;">
+    <div class="card" style="width: 32rem; float: left; margin-right: 1rem;">
         <div class="card-body">
             {% if nowy %}
                 <h5 class="card-title">Nowy Film</h5>
@@ -14,11 +14,34 @@
             <form method="post">
                 {% csrf_token %}
                 {{ form|bootstrap }}
-                {{ form_dodatkowy|bootstrap }}
+                {{ form_dodatkowe|bootstrap }}
 
                 <button type="submit" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Zapisz </button>
                 <a href="{% url 'wszystkie_filmy' %}" class="btn btn-info"> <i class="fas fa-backward"></i> Cofnij </a>
             </form>
         </div>
     </div>
+
+    <div class="card" style="width: 32rem; float: left; margin-right: 1rem;">
+        <div class="card-body">
+
+                <h5 class="card-title">Oceny</h5>
+            <form method="post">
+                {% csrf_token %}
+                {{ form_ocena|bootstrap }}
+
+                <button type="submit" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Ocen </button>
+
+            </form>
+            <hr>
+        {% for ocena in oceny %}
+            <h4>Gwiazdki: {{ocena.gwiazdki}}</h4>
+            <p>Recenzja: {{ocena.recenzja}}</p>
+            <hr>
+        {% endfor %}
+
+        </div>
+    </div>
+
+
 {% endblock %}
