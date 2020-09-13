@@ -1,13 +1,20 @@
 {% extends 'glowny.html' %}
-
-{% block tytul %} Usun Seans {% endblock %}
+{% load bootstrap %}
+{% block tytul %} Usun {% endblock %}
 
 {% block strona %}
-    <h1>Czy na pewno chcesz usunac "{{film.tytul}}"? </h1>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Usun film</button>
-    </form>
-    <a href="{% url 'wszystkie_filmy' %}">Cofnij</a>
+
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+                <h1 class="display-4">Czy na pewno chcesz usunac "{{film.tytul}}"?</h1>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Usun film</button>
+                </form>
+                <a href="{% url 'wszystkie_filmy' %}" class="btn btn-info"> Anuluj</a>
+
+        </div>
+    </div>
+
 
 {% endblock %}

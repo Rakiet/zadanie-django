@@ -17,7 +17,7 @@ def nowy_film(request):
     if form.is_valid():
         form.save()
         return redirect(wszystkie_filmy)
-    return render(request, 'film_form.html', {'form': form})
+    return render(request, 'film_form.html', {'form': form, 'nowy': True})
 
 @login_required()
 def edytuj_film(request, id):
@@ -27,7 +27,7 @@ def edytuj_film(request, id):
     if form.is_valid():
         form.save()
         return redirect(wszystkie_filmy)
-    return render(request, 'film_form.html', {'form': form})
+    return render(request, 'film_form.html', {'form': form, 'nowy': False})
 
 @login_required()
 def usun_film(request, id):
