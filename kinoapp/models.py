@@ -29,3 +29,7 @@ class Kino(models.Model):
     def tytul_z_rokiem(self):
         return "{} ({})".format(self.tytul, self.rok)
 
+class Ocena(models.Model):
+    recenzja = models.TextField(default="", blank=True)
+    gwiazdki = models.PositiveSmallIntegerField(default=5)
+    film = models.ForeignKey(Kino, on_delete=models.CASCADE)
