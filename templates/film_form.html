@@ -14,6 +14,7 @@
             <form method="post">
                 {% csrf_token %}
                 {{ form|bootstrap }}
+                {{ form_dodatkowy|bootstrap }}
 
                 <button type="submit" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Zapisz </button>
                 <a href="{% url 'wszystkie_filmy' %}" class="btn btn-info"> <i class="fas fa-backward"></i> Cofnij </a>
