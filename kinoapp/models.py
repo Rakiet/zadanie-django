@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 class DodatkoweInfo(models.Model):
     GATUNEK = {
@@ -30,6 +31,7 @@ class Kino(models.Model):
         return "{} ({})".format(self.tytul, self.rok)
 
 class Ocena(models.Model):
+    autor = models.CharField(max_length=64, default='', blank=True)
     CHOICE = [(str(i), i)for i in range(1,11)]
     recenzja = models.TextField(default="", blank=True)
     gwiazdki = models.CharField(default=5,max_length=2,choices=CHOICE)

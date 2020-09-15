@@ -1,5 +1,6 @@
 from django.forms import ModelForm
-from .models import Kino, DodatkoweInfo, Ocena
+from .models import Kino, DodatkoweInfo
+from .models import Ocena
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -16,6 +17,7 @@ class DodatkoweInfoForm(ModelForm):
 
 
 class OcenaForm(ModelForm):
+
     class Meta:
         model = Ocena
         fields = ['recenzja', 'gwiazdki']
@@ -28,5 +30,5 @@ class RejestracjaForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'email', 'password1', 'password2', )
+        fields = ('username', 'first_name', 'email', 'password1', 'password2', 'last_name')
 

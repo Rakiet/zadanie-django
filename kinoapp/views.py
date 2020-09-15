@@ -81,7 +81,11 @@ def ocen_film(request, id):
         if 'gwiazdki' in request.POST:
             ocena = form_ocena.save(commit=False)
             ocena.film = film
+            ocena.autor = request.user
+            ocena.film = film
             ocena.save()
+
+
 
 
     return render(request, 'ocen.html', {'film': film, 'oceny': oceny, 'form_ocena': form_ocena})

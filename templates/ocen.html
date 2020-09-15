@@ -23,10 +23,13 @@
             </div>
 
             <div class="col-sm">
-                <hr>
+
                 {% for ocena in oceny %}
+                <hr>
                     <h4>Gwiazdki: {{ocena.gwiazdki}}</h4>
                     <p>Recenzja: {{ocena.recenzja}}</p>
+                    <p4>Autor: {{ocena.autor}}</p4>
+
                 {% endfor %}
             </div>
         </div>
