@@ -13,7 +13,7 @@ def wszystkie_filmy(request):
     wszyskie = Kino.objects.all()
     return render(request, 'filmy.html', {'filmy': wszyskie})
 
-@login_required()
+@staff_member_required
 def nowy_film(request):
     form_film = KinoForm(request.POST or None, request.FILES or None)
     form_dodatkowe = DodatkoweInfoForm(request.POST or None)
@@ -29,7 +29,6 @@ def nowy_film(request):
 @staff_member_required
 def edytuj_film(request, id):
     film = get_object_or_404(Kino, pk=id)
-    oceny = Ocena.objects.filter(film=film)
 
     try:
         dodatkowe = DodatkoweInfo.objects.get(pk=film.id)
@@ -38,13 +37,6 @@ def edytuj_film(request, id):
 
     form_film = KinoForm(request.POST or None, request.FILES or None, instance=film)
     form_dodatkowe = DodatkoweInfoForm(request.POST or None, instance=dodatkowe)
-    form_ocena = OcenaForm(request.POST or None)
-
-    if request.method == 'POST':
-        if 'gwiazdki' in request.POST:
-            ocena = form_ocena.save(commit=False)
-            ocena.film = film
-            ocena.save()
 
     if all((form_film.is_valid(), form_dodatkowe.is_valid())):
         film = form_film.save(commit=False)
@@ -52,7 +44,7 @@ def edytuj_film(request, id):
         film.dodatkowe = dodatkowe
         film.save()
         return redirect(wszystkie_filmy)
-    return render(request, 'film_form.html', {'form': form_film, 'form_dodatkowe': form_dodatkowe, 'oceny': oceny, 'form_ocena': form_ocena, 'nowy': False,})
+    return render(request, 'film_form.html', {'form': form_film, 'form_dodatkowe': form_dodatkowe, 'nowy': False})
 
 @staff_member_required
 def usun_film(request, id):
@@ -83,13 +75,6 @@ def ocen_film(request, id):
     film = get_object_or_404(Kino, pk=id)
     oceny = Ocena.objects.filter(film=film)
 
-    try:
-        dodatkowe = DodatkoweInfo.objects.get(pk=film.id)
-    except DodatkoweInfo.DoesNotExist:
-        dodatkowe = None
-
-    form_film = KinoForm(request.POST or None, request.FILES or None, instance=film)
-    form_dodatkowe = DodatkoweInfoForm(request.POST or None, instance=dodatkowe)
     form_ocena = OcenaForm(request.POST or None)
 
     if request.method == 'POST':
@@ -98,13 +83,8 @@ def ocen_film(request, id):
             ocena.film = film
             ocena.save()
 
-    if all((form_film.is_valid(), form_dodatkowe.is_valid())):
-        film = form_film.save(commit=False)
-        dodatkowe = form_dodatkowe.save()
-        film.dodatkowe = dodatkowe
-        film.save()
-        return redirect(wszystkie_filmy)
-    return render(request, 'ocen.html', {'film': film, 'form': form_film, 'form_dodatkowe': form_dodatkowe, 'oceny': oceny, 'form_ocena': form_ocena, 'nowy': False,})
+
+    return render(request, 'ocen.html', {'film': film, 'oceny': oceny, 'form_ocena': form_ocena})
 
 # Create your views here.
 
