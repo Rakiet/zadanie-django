@@ -9,7 +9,7 @@
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
             {% if user.is_authenticated %}
-                <h1 class="display-4">Witaj {{ user.username.capitalize }}</h1>
+                <h1 class="display-4">Witaj {{ user.email.capitalize }}</h1>
                 <a href="{% url 'logout' %}" class="btn btn-info"><i class="fas fa-sign-out-alt"> Wyloguj</i></a>
                 <a href="{% url 'nowy_film' %}" class="btn btn-success"> <i class="fas fa-plus"></i> Dodaj nowy film</a>
             {% else %}

@@ -7,5 +7,5 @@ urlpatterns = [
     path('nowy/', nowy_film, name="nowy_film"),
     path('edytuj/<int:id>/', edytuj_film, name="edytuj_film"),
     path('usun/<int:id>/', usun_film, name="usun_film"),
-    path('rejestracja/', rejestracja, name='rejestarcja'),
+    path('rejestracja/', rejestracja, name='rejestracja'),
 ]
