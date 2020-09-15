@@ -4,6 +4,7 @@ from .models import Kino, DodatkoweInfo, Ocena
 from .forms import KinoForm, DodatkoweInfoForm, OcenaForm, RejestracjaForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
+from django.contrib.admin.views.decorators import staff_member_required
 
 
 
@@ -25,7 +26,7 @@ def nowy_film(request):
         return redirect(wszystkie_filmy)
     return render(request, 'film_form.html', {'form': form_film, 'form_dodatkowe': form_dodatkowe, 'nowy': True})
 
-@login_required()
+@staff_member_required
 def edytuj_film(request, id):
     film = get_object_or_404(Kino, pk=id)
     oceny = Ocena.objects.filter(film=film)
@@ -53,7 +54,7 @@ def edytuj_film(request, id):
         return redirect(wszystkie_filmy)
     return render(request, 'film_form.html', {'form': form_film, 'form_dodatkowe': form_dodatkowe, 'oceny': oceny, 'form_ocena': form_ocena, 'nowy': False,})
 
-@login_required()
+@staff_member_required
 def usun_film(request, id):
     film = get_object_or_404(Kino, pk=id)
 
@@ -76,8 +77,35 @@ def rejestracja(request):
     else:
         form = RejestracjaForm()
     return render(request, 'rejestracja.html', {'form': form})
+
+@login_required()
+def ocen_film(request, id):
+    film = get_object_or_404(Kino, pk=id)
+    oceny = Ocena.objects.filter(film=film)
+
+    try:
+        dodatkowe = DodatkoweInfo.objects.get(pk=film.id)
+    except DodatkoweInfo.DoesNotExist:
+        dodatkowe = None
+
+    form_film = KinoForm(request.POST or None, request.FILES or None, instance=film)
+    form_dodatkowe = DodatkoweInfoForm(request.POST or None, instance=dodatkowe)
+    form_ocena = OcenaForm(request.POST or None)
+
+    if request.method == 'POST':
+        if 'gwiazdki' in request.POST:
+            ocena = form_ocena.save(commit=False)
+            ocena.film = film
+            ocena.save()
+
+    if all((form_film.is_valid(), form_dodatkowe.is_valid())):
+        film = form_film.save(commit=False)
+        dodatkowe = form_dodatkowe.save()
+        film.dodatkowe = dodatkowe
+        film.save()
+        return redirect(wszystkie_filmy)
+    return render(request, 'ocen.html', {'film': film, 'form': form_film, 'form_dodatkowe': form_dodatkowe, 'oceny': oceny, 'form_ocena': form_ocena, 'nowy': False,})
+
 # Create your views here.
 
-from django.contrib.auth import get_user_model
-from django.contrib.auth.backends import ModelBackend
 

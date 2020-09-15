@@ -1,0 +1,52 @@
+{% extends 'glowny.html' %}
+{% load bootstrap %}
+{% block tytul %} Ocen {{film.tytul}} {% endblock %}
+
+{% block strona %}
+
+    <div class="card" style="width: 32rem; float: left; margin-right: 1rem;">
+        <div class="card-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+                        <h3 class="card-title">{{ film }}</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <img src="/media/{{film.plakat}}" class="film-plakat">
+                    </div>
+                    <div class="col-8">
+                        <p class="card-text">{{film.opis}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <hr>
+                {% for ocena in oceny %}
+                    <h4>Gwiazdki: {{ocena.gwiazdki}}</h4>
+                    <p>Recenzja: {{ocena.recenzja}}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="width: 32rem; float: left; margin-right: 1rem;">
+        <div class="card-body">
+
+                <h5 class="card-title">Napisz recenzje</h5>
+            <form method="post">
+                {% csrf_token %}
+                {{ form_ocena|bootstrap }}
+
+                <button type="submit" class="btn btn-info"> Ocen </button>
+
+            </form>
+
+
+        </div>
+    </div>
+
+
+{% endblock %}

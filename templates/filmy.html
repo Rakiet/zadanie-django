@@ -9,38 +9,39 @@
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
             {% if user.is_authenticated %}
-                <h1 class="display-4">Witaj {{ user.email.capitalize }}</h1>
+                <h1 class="display-4">Witaj {{ user.username.capitalize }}</h1>
                 <a href="{% url 'logout' %}" class="btn btn-info"><i class="fas fa-sign-out-alt"> Wyloguj</i></a>
                 <a href="{% url 'nowy_film' %}" class="btn btn-success"> <i class="fas fa-plus"></i> Dodaj nowy film</a>
             {% else %}
+
                 <h1 class="display-4">Witaj, nieznajomy, zaloguj sie.</h1>
-                <a href="{% url 'login' %}" class="btn btn-info"><i class="fas fa-sign-in-alt"> Login</i></a>
+                <a href="{% url 'login' %}" class="btn btn-info" ><i class="fas fa-sign-in-alt"> Login</i></a>
             {% endif %}
         </div>
     </div>
-
-
-
     <hr>
 
 <!--    <h2>Ilość seansów w bazie danych: {{ filmy|length }}</h2>-->
     {% for film in filmy %}
-
-    <div class="card" style="width: 36rem;">
+    <center>
+    <div class="card" style="min-width: 36rem; max-width: 46rem;">
         <div class="card-body">
             <div class="container">
 <!--                <img src="/media/{{film.plakat}}" class="film_plakat">-->
                 <div class="row">
-                    <div class="col-9">
+                    <div class="col-9" style="text-align: left;">
                         <h5 class="card-title">{{ film }}</h5>
                     </div>
-                    <div class="col-3">
-                        <a href="{% url 'edytuj_film' film.id %}" class="card-link"><i class="fas fa-edit"></i></a>
-                        <a href="{% url 'usun_film' film.id %}" class="card-link"><i class="fas fa-trash-alt"></i></a>
+                    <div class="col-3" style="text-align: right;" >
+                        {% if user.is_staff %}
+                            <a href="{% url 'edytuj_film' film.id %}" class="card-link" title="Edytuj"><i class="fas fa-edit"></i></a>
+                            <a href="{% url 'usun_film' film.id %}" class="card-link" title="Usun Film"><i class="fas fa-trash-alt"></i></a>
+                        {% endif %}
+                        <a href="{% url 'ocen_film' film.id %}" class="card-link" title="Ocen"><i class="fas fa-star-half-alt"></i></i></a>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-4" style="text-align: left;">
                         <img src="/media/{{film.plakat}}" class="film-plakat">
                     </div>
                     <div class="col-8">
@@ -50,6 +51,8 @@
             </div>
         </div>
     </div>
+    </center>
+
 
 
 
