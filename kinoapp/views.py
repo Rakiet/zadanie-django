@@ -1,8 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Kino, DodatkoweInfo, Ocena
-from .forms import KinoForm, DodatkoweInfoForm, OcenaForm
+from .forms import KinoForm, DodatkoweInfoForm, OcenaForm, SignUpForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+
 
 
 
@@ -61,4 +64,17 @@ def usun_film(request, id):
 
     return render(request, 'potwierdz.html', {'film': film})
 
+def rejestracja(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            email = form.cleaned_data.get('email')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=email, password=raw_password)
+            login(request, user)
+            return redirect(wszystkie_filmy)
+    else:
+        form = SignUpForm()
+    return render(request, 'rejestracja.html', {'form': form})
 # Create your views here.
