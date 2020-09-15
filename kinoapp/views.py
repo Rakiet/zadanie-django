@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.exceptions import ObjectDoesNotExist
-from .models import Kino, DodatkoweInfo, Ocena
+from .models import Kino, DodatkoweInfo, Ocena, Bilety
 from .forms import KinoForm, DodatkoweInfoForm, OcenaForm, RejestracjaForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
@@ -11,7 +11,8 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 def wszystkie_filmy(request):
     wszyskie = Kino.objects.all()
-    return render(request, 'filmy.html', {'filmy': wszyskie})
+    bilety = Bilety.objects.all()
+    return render(request, 'filmy.html', {'filmy': wszyskie, 'bilety': bilety})
 
 @staff_member_required
 def nowy_film(request):

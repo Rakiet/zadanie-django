@@ -36,3 +36,8 @@ class Ocena(models.Model):
     recenzja = models.TextField(default="", blank=True)
     gwiazdki = models.CharField(default=5,max_length=2,choices=CHOICE)
     film = models.ForeignKey(Kino, on_delete=models.CASCADE)
+
+class Bilety(models.Model):
+    data = models.DateTimeField(blank=True, null=True)
+    ilosc = models.PositiveSmallIntegerField(default=24)
+    film = models.ForeignKey(Kino, on_delete=models.CASCADE)

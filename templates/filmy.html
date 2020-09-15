@@ -40,6 +40,8 @@
                             <a href="{% url 'usun_film' film.id %}" class="card-link" title="Usun Film"><i class="fas fa-trash-alt"></i></a>
                         {% endif %}
                         <a href="{% url 'ocen_film' film.id %}" class="card-link" title="Ocen"><i class="fas fa-star-half-alt"></i></i></a>
+
+
                     </div>
                 </div>
                 <div class="row">
@@ -49,6 +51,26 @@
                     <div class="col-8">
                         <p class="card-text">{{film.opis}}</p>
                     </div>
+                </div>
+                <div class="row">
+                     <div class="col-sm" style="text-align: right;">
+                         <center>
+                            {% for seans in bilety %}
+                                {% if seans.film == film %}
+
+
+
+                                    <p style="color: green; ">Bilety są dostępne. {{seans.data}}</p>
+                                    <a href="{% url 'nowy_film' %}" class="btn btn-success"><i class="fas fa-shopping-basket"></i> Kup Bilet</a>
+                                {% else %}
+                                    <p style="color: red;">Bilety aktualnie są niedostępne, przepraszamy.</p>
+                                {% endif %}
+
+                            {% endfor %}
+
+
+                         </center>
+                     </div>
                 </div>
             </div>
         </div>
