@@ -36,6 +36,7 @@ def nowy_film(request):
 @staff_member_required
 def edytuj_film(request, id):
     film = get_object_or_404(Kino, pk=id)
+    bilet = Ocena.objects.filter(film=film)
 
     try:
         dodatkowe = DodatkoweInfo.objects.get(pk=film.id)
@@ -44,6 +45,7 @@ def edytuj_film(request, id):
 
     form_film = KinoForm(request.POST or None, request.FILES or None, instance=film)
     form_dodatkowe = DodatkoweInfoForm(request.POST or None, instance=dodatkowe)
+    form_bilet = BiletyForm(request.POST or None)
 
     if all((form_film.is_valid(), form_dodatkowe.is_valid())):
         film = form_film.save(commit=False)
@@ -51,7 +53,17 @@ def edytuj_film(request, id):
         film.dodatkowe = dodatkowe
         film.save()
         return redirect(wszystkie_filmy)
-    return render(request, 'film_form.html', {'form': form_film, 'form_dodatkowe': form_dodatkowe, 'nowy': False})
+
+
+
+
+    if request.method == 'POST':
+        if 'ilosc' in request.POST:
+            bilet = form_bilet.save(commit=False)
+            bilet.film = film
+            bilet.save()
+
+    return render(request, 'film_form.html', {'form': form_film, 'form_bilet': form_bilet, 'form_dodatkowe': form_dodatkowe, 'nowy': False})
 
 @staff_member_required
 def usun_film(request, id):

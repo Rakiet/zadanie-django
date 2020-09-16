@@ -22,6 +22,22 @@
         </div>
     </div>
 
+    <div class="card" style="width: 32rem; float: left; margin-right: 1rem;">
+        <div class="card-body">
+
+                <h5 class="card-title">Napisz recenzje</h5>
+            <form method="post">
+                {% csrf_token %}
+                {{ form_bilet|bootstrap }}
+
+                <button type="submit" class="btn btn-info"> Dodaj bilety </button>
+
+            </form>
+
+
+        </div>
+    </div>
+
 
 
 
