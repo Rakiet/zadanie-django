@@ -24,6 +24,7 @@ class Kino(models.Model):
     ranking_imdb =  models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
     data = models.DateTimeField(blank=True,null=True)
     dodatkowe = models.OneToOneField(DodatkoweInfo, on_delete=models.CASCADE, blank=True, null=True)
+    bilety_czy_dostepne = models.BooleanField(default=False)
     def __str__(self):
         return self.tytul_z_rokiem()
 

@@ -50,28 +50,19 @@
                     </div>
                     <div class="col-8">
                         <p class="card-text">{{film.opis}}</p>
+                        {% if film.bilety_czy_dostepne %}
+
+                                <div class="col-sm" style="position: absolute; bottom: 40px; right: 0px;">
+                                 <a href="{% url 'nowy_film' %}" class="btn btn-success" style="position: absolute; buttom: 0px; right: 15px;" ><i class="fas fa-shopping-basket"></i> Kup Bilet</a>
+                                </div>
+                            {% else %}
+                                <div class="col-sm" style="position: absolute; bottom: 40px; right: 0px;">
+                                <a  class="btn btn-danger" style="position: absolute; buttom: 0px; right: 15px;">Bilety Niedostepne</a>
+                                </div>
+                         {% endif %}
                     </div>
                 </div>
-                <div class="row">
-                     <div class="col-sm" style="text-align: right;">
-                         <center>
-                            {% for seans in bilety %}
-                                {% if seans.film == film %}
 
-
-
-                                    <p style="color: green; ">Bilety są dostępne. {{seans.data}}</p>
-                                    <a href="{% url 'nowy_film' %}" class="btn btn-success"><i class="fas fa-shopping-basket"></i> Kup Bilet</a>
-                                {% else %}
-                                    <p style="color: red;">Bilety aktualnie są niedostępne, przepraszamy.</p>
-                                {% endif %}
-
-                            {% endfor %}
-
-
-                         </center>
-                     </div>
-                </div>
             </div>
         </div>
     </div>

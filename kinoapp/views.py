@@ -12,6 +12,12 @@ from django.contrib.admin.views.decorators import staff_member_required
 def wszystkie_filmy(request):
     wszyskie = Kino.objects.all()
     bilety = Bilety.objects.all()
+
+    for film in wszyskie:
+        for bilet in bilety:
+            if bilet.film == film:
+                film.bilety_czy_dostepne = True
+
     return render(request, 'filmy.html', {'filmy': wszyskie, 'bilety': bilety})
 
 @staff_member_required
