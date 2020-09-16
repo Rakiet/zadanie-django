@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Kino, DodatkoweInfo, Ocena, Bilety
-from .forms import KinoForm, DodatkoweInfoForm, OcenaForm, RejestracjaForm
+from .forms import KinoForm, DodatkoweInfoForm, OcenaForm, RejestracjaForm, BiletyForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.contrib.admin.views.decorators import staff_member_required
@@ -96,6 +96,15 @@ def ocen_film(request, id):
 
 
     return render(request, 'ocen.html', {'film': film, 'oceny': oceny, 'form_ocena': form_ocena})
+
+@login_required()
+def kup_bilet(request, id):
+    film = get_object_or_404(Kino, pk=id)
+    bilet = Bilety.objects.filter(film=film)
+
+
+    return render(request, 'kup-bilet.html', {'film': film, 'bilety': bilet })
+
 
 # Create your views here.
 

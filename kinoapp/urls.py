@@ -1,5 +1,5 @@
 from django.urls import path
-from kinoapp.views import wszystkie_filmy, nowy_film, edytuj_film, usun_film, rejestracja, ocen_film
+from kinoapp.views import wszystkie_filmy, nowy_film, edytuj_film, usun_film, rejestracja, ocen_film, kup_bilet
 
 
 urlpatterns = [
@@ -9,4 +9,5 @@ urlpatterns = [
     path('usun/<int:id>/', usun_film, name="usun_film"),
     path('rejestracja/', rejestracja, name='rejestracja'),
     path('ocen/<int:id>/', ocen_film, name="ocen_film"),
+    path('kup_bilet/<int:id>/', kup_bilet, name="kup_bilet"),
 ]

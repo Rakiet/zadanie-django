@@ -53,7 +53,7 @@
                         {% if film.bilety_czy_dostepne %}
 
                                 <div class="col-sm" style="position: absolute; bottom: 40px; right: 0px;">
-                                 <a href="{% url 'nowy_film' %}" class="btn btn-success" style="position: absolute; buttom: 0px; right: 15px;" ><i class="fas fa-shopping-basket"></i> Kup Bilet</a>
+                                 <a href="{% url 'kup_bilet' film.id %}" class="btn btn-success" style="position: absolute; buttom: 0px; right: 15px;" ><i class="fas fa-shopping-basket"></i> Kup Bilet</a>
                                 </div>
                             {% else %}
                                 <div class="col-sm" style="position: absolute; bottom: 40px; right: 0px;">
