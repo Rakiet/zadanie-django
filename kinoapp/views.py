@@ -1,24 +1,35 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.exceptions import ObjectDoesNotExist
-from .models import Kino, DodatkoweInfo, Ocena, Bilety
+from .models import Kino, DodatkoweInfo, Ocena, Bilety, Profile
 from .forms import KinoForm, DodatkoweInfoForm, OcenaForm, RejestracjaForm, BiletyForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.contrib.admin.views.decorators import staff_member_required
-
+from django.contrib.auth.models import User
 
 
 
 def wszystkie_filmy(request):
     wszyskie = Kino.objects.all()
     bilety = Bilety.objects.all()
+    ile = 0
+    try:
+        user = get_object_or_404(User, pk=request.user.id)
+        profile = Profile.objects.filter(user=user)
+        for film in profile:
+            film.tytul
+            ile += 1
+    except:
+        user:None
+
+
 
     for film in wszyskie:
         for bilet in bilety:
             if bilet.film == film:
                 film.bilety_czy_dostepne = True
 
-    return render(request, 'filmy.html', {'filmy': wszyskie, 'bilety': bilety})
+    return render(request, 'filmy.html', {'filmy': wszyskie, 'bilety': bilety, 'ile_biletow': ile})
 
 @staff_member_required
 def nowy_film(request):

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.conf import settings
 
 class DodatkoweInfo(models.Model):
@@ -42,3 +43,10 @@ class Bilety(models.Model):
     data = models.DateTimeField(blank=True, null=True)
     ilosc = models.PositiveSmallIntegerField(default=24)
     film = models.ForeignKey(Kino, on_delete=models.CASCADE)
+
+
+class Profile(models.Model):
+
+    user = models.ForeignKey(User, unique=True, related_name='user', on_delete=models.CASCADE)
+    tytul = models.CharField(max_length=64)
+    bilet = models.ForeignKey(Bilety, on_delete=models.CASCADE)

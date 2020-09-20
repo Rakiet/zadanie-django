@@ -14,11 +14,17 @@
                 {% if user.is_staff %}
                     <a href="{% url 'nowy_film' %}" class="btn btn-success"> <i class="fas fa-plus"></i> Dodaj nowy film</a>
                 {% endif %}
+                {% if ile_biletow > 4 %}
+                    <button type="button" class="btn btn-secondary">Posiadasz {{ ile_biletow }} biletów</button>
+                {% elif ile_biletow > 0 %}
+                    <button type="button" class="btn btn-secondary"><i class="fas fa-ticket-alt"></i> Posiadasz {{ ile_biletow }} bilet</button>
+                {% endif %}
             {% else %}
 
                 <h1 class="display-4">Witaj, nieznajomy, zaloguj sie.</h1>
                 <a href="{% url 'login' %}" class="btn btn-info" ><i class="fas fa-sign-in-alt"> Login</i></a>
             {% endif %}
+
         </div>
     </div>
     <hr>
@@ -39,7 +45,7 @@
                             <a href="{% url 'edytuj_film' film.id %}" class="card-link" title="Edytuj"><i class="fas fa-edit"></i></a>
                             <a href="{% url 'usun_film' film.id %}" class="card-link" title="Usun Film"><i class="fas fa-trash-alt"></i></a>
                         {% endif %}
-                        <a href="{% url 'ocen_film' film.id %}" class="card-link" title="Ocen"><i class="fas fa-star-half-alt"></i></i></a>
+                        <a href="{% url 'ocen_film' film.id %}" class="card-link" title="Ocen"><i class="fas fa-star-half-alt"></i></a>
 
 
                     </div>
