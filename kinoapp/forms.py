@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from .models import Kino, DodatkoweInfo
-from .models import Ocena, Bilety
+from .models import Ocena, Bilety, Profile
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -37,3 +37,8 @@ class BiletyForm(ModelForm):
     class Meta:
         model = Bilety
         fields = ['data', 'ilosc']
+
+class ProfileForm(ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['tytul',]

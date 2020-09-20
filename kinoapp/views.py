@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Kino, DodatkoweInfo, Ocena, Bilety, Profile
-from .forms import KinoForm, DodatkoweInfoForm, OcenaForm, RejestracjaForm, BiletyForm
+from .forms import KinoForm, DodatkoweInfoForm, OcenaForm, RejestracjaForm, BiletyForm, ProfileForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.contrib.admin.views.decorators import staff_member_required
@@ -65,9 +65,6 @@ def edytuj_film(request, id):
         film.save()
         return redirect(wszystkie_filmy)
 
-
-
-
     if request.method == 'POST':
         if 'ilosc' in request.POST:
             bilet = form_bilet.save(commit=False)
@@ -127,6 +124,35 @@ def kup_bilet(request, id):
 
 
     return render(request, 'kup-bilet.html', {'film': film, 'bilety': bilet })
+
+
+def potwierdz_zakup(request, id):
+    bilet = get_object_or_404(Bilety, pk=id)
+    form_profile = ProfileForm(request.POST or None)
+
+    if request.method == 'POST':
+        if 'tytul' in request.POST:
+            profil = form_profile.save(commit=False)
+            profil.user = User(id=request.user.id)
+            profil.bilet = bilet
+            profil.save()
+            return redirect(wszystkie_filmy)
+
+    return render(request, 'potwierdz-zakup.html',{'form_profile': form_profile, 'bilet': bilet})
+
+
+# film = get_object_or_404(Kino, pk=id)
+#     oceny = Ocena.objects.filter(film=film)
+#
+#     form_ocena = OcenaForm(request.POST or None)
+#
+#     if request.method == 'POST':
+#         if 'gwiazdki' in request.POST:
+#             ocena = form_ocena.save(commit=False)
+#             ocena.film = film
+#             ocena.autor = request.user
+#             ocena.film = film
+#             ocena.save()
 
 
 # Create your views here.

@@ -1,0 +1,21 @@
+{% extends 'glowny.html' %}
+{% load bootstrap %}
+{% block tytul %} Usun {% endblock %}
+
+{% block strona %}
+
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+                <h1 class="display-4">Czy na pewno chcesz kupic bilet na seans: {{ bilet.film.tytul }} {{ bilet.data }}</h1>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form_profile|bootstrap }}
+                    <button type="submit" class="btn btn-danger">Kup Bilet</button>
+                </form>
+                <a href="{% url 'wszystkie_filmy' %}" class="btn btn-info"> Anuluj</a>
+
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -14,7 +14,7 @@
                 <hr>
 
             <h4 style="height: 40px;">Seans:  {{ bilet.data|date:"d/n/Y G:i" }}
-            <a href="{% url 'kup_bilet' bilet.id %}" class="btn btn-success" style="float: right;" ><i class="fas fa-shopping-basket"></i> Kup Bilet</a>
+            <a href="{% url 'potwierdz_zakup' bilet.id %}" class="btn btn-success" style="float: right;" ><i class="fas fa-shopping-basket"></i> Kup Bilet</a>
             </h4>
             {% endfor %}
 
