@@ -21,7 +21,7 @@ class Kino(models.Model):
     rok = models.PositiveSmallIntegerField(default=2000)
     opis = models.TextField(default="")
     cena =  models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
-    plakat = models.ImageField(upload_to = "img", null=True, blank=True )
+    plakat = models.ImageField(upload_to='img', null=True, blank=True )
     ranking_imdb =  models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
     data = models.DateTimeField(blank=True,null=True)
     dodatkowe = models.OneToOneField(DodatkoweInfo, on_delete=models.CASCADE, blank=True, null=True)

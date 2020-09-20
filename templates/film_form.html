@@ -1,6 +1,12 @@
 {% extends 'glowny.html' %}
 {% load bootstrap %}
-{% block tytul %} Login {% endblock %}
+{% block tytul %}
+    {% if nowy %}
+        Dodaj Nowy Film
+    {% else %}
+        Edytuj Film
+    {% endif %}
+{% endblock %}
 
 {% block strona %}
 
@@ -21,7 +27,7 @@
             </form>
         </div>
     </div>
-
+{% if nowy != True %}
     <div class="card" style="width: 32rem; float: left; margin-right: 1rem;">
         <div class="card-body">
 
@@ -37,6 +43,7 @@
 
         </div>
     </div>
+{% endif %}
 
 
 
