@@ -16,9 +16,7 @@ def wszystkie_filmy(request):
     try:
         user = get_object_or_404(User, pk=request.user.id)
         profile = Profile.objects.filter(user=user)
-        for film in profile:
-            film.tytul
-            ile += 1
+        ile = len(profile)
     except:
         user:None
 
@@ -141,20 +139,11 @@ def potwierdz_zakup(request, id):
     return render(request, 'potwierdz-zakup.html',{'form_profile': form_profile, 'bilet': bilet})
 
 
-# film = get_object_or_404(Kino, pk=id)
-#     oceny = Ocena.objects.filter(film=film)
-#
-#     form_ocena = OcenaForm(request.POST or None)
-#
-#     if request.method == 'POST':
-#         if 'gwiazdki' in request.POST:
-#             ocena = form_ocena.save(commit=False)
-#             ocena.film = film
-#             ocena.autor = request.user
-#             ocena.film = film
-#             ocena.save()
+def moje_bilety(request):
+    user = get_object_or_404(User, pk=request.user.id)
+    profile = Profile.objects.filter(user=user)
 
 
-# Create your views here.
 
+    return render(request, 'moje_bilety.html',{'bilet': profile})
 

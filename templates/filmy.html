@@ -15,9 +15,11 @@
                     <a href="{% url 'nowy_film' %}" class="btn btn-success"> <i class="fas fa-plus"></i> Dodaj nowy film</a>
                 {% endif %}
                 {% if ile_biletow > 4 %}
-                    <button type="button" class="btn btn-secondary">Posiadasz {{ ile_biletow }} biletów</button>
+                    <a href="{% url 'moje_bilety' %}"  class="btn btn-secondary">Posiadasz {{ ile_biletow }} biletów</a>
+                {% elif ile_biletow > 1 %}
+                    <a href="{% url 'moje_bilety' %}"  class="btn btn-secondary">Posiadasz {{ ile_biletow }} bilety</a>
                 {% elif ile_biletow > 0 %}
-                    <button type="button" class="btn btn-secondary"><i class="fas fa-ticket-alt"></i> Posiadasz {{ ile_biletow }} bilet</button>
+                    <a href="{% url 'moje_bilety' %}"  class="btn btn-secondary"><i class="fas fa-ticket-alt"></i> Posiadasz {{ ile_biletow }} bilet</a>
                 {% endif %}
             {% else %}
 
