@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
+from datetime import datetime, timezone
 import operator
 
 
@@ -144,11 +145,16 @@ def moje_bilety(request):
     user = get_object_or_404(User, pk=request.user.id)
     profile = Profile.objects.filter(user=user)
     pro = []
+    data_teraz = datetime.now(timezone.utc)
 
     for profil in profile:
-        pro.append((Bilety.objects.filter(film=profil.bilet.film),profil))
+        if profil.bilet.data > data_teraz:
+                pro.append((Bilety.objects.filter(film=profil.bilet.film),profil))
+        else:
+            pro.append(((), profil))
 
-    return render(request, 'moje_bilety.html', {'profile': pro})
+
+    return render(request, 'moje_bilety.html', {'profile': pro, 'data_teraz': data_teraz})
 
 @login_required()
 def potwierdz_wymiane(request, profil_id, seans_id):
@@ -163,6 +169,16 @@ def potwierdz_wymiane(request, profil_id, seans_id):
 
 
     return render(request, 'potwierdz_wymiane.html', {'profil': profil, 'bilet': bilet})
+
+@login_required()
+def usun_bilet(request, id):
+    film = get_object_or_404(Kino, pk=id)
+
+    if request.method == "POST":
+        film.delete()
+        return redirect(wszystkie_filmy)
+
+    return render(request, 'potwierdz.html', {'film': film})
 
 
 

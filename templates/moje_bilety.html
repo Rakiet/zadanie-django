@@ -32,22 +32,22 @@
                 {% if seanse.count > 1 %}
                     <p class="card-text">Możliwa zamiana na inny seans:</p>
                 {% else %}
-                    <p class="card-text">Brak możliwości zamiany seansu:</p>
+                    <p class="card-text">Brak możliwości zamiany seansu.</p>
                 {% endif %}
 
             {% for seans in seanse %}
                 {% if seans != profil.bilet %}
+                    {% if seans.data > data_teraz %}
                     <p class="card-text"><small class="text-muted">Seans: {{seans.data|date:"d/n/Y G:i"}}</small>
                         <a href="{% url 'potwierdz_wymiane' profil.id seans.id %}" class="btn btn-info btn-sm">Zamień</a>
                     </p>
-
+                    {% endif %}
                 {% endif %}
             {% endfor %}
-
+            <a href="" class="btn btn-danger btn-sm">Usuń bilet</a>
             </div>
 
         </div>
-
 
   </div>
 </div>
