@@ -81,7 +81,7 @@ def usun_film(request, id):
         film.delete()
         return redirect(wszystkie_filmy)
 
-    return render(request, 'potwierdz.html', {'film': film})
+    return render(request, 'potwierdz.html', {'film': film, 'usun_bilet': False})
 
 def rejestracja(request):
     if request.method == 'POST':
@@ -172,13 +172,13 @@ def potwierdz_wymiane(request, profil_id, seans_id):
 
 @login_required()
 def usun_bilet(request, id):
-    film = get_object_or_404(Kino, pk=id)
+    profil = get_object_or_404(Profile, pk=id)
 
     if request.method == "POST":
-        film.delete()
-        return redirect(wszystkie_filmy)
+        profil.delete()
+        return redirect(moje_bilety)
 
-    return render(request, 'potwierdz.html', {'film': film})
+    return render(request, 'potwierdz.html', {'profil': profil, 'usun_bilet': True})
 
 
 

@@ -5,7 +5,7 @@
 {% block strona %}
 
 
-
+<a href="{% url 'wszystkie_filmy' %}" class="btn btn-info"> <i class="fas fa-backward"></i> Ekran głowny </a>
 {% for seanse, profil in profile %}
 
       <div class="card mb-4" style="max-width: 800px;">
@@ -44,7 +44,7 @@
                     {% endif %}
                 {% endif %}
             {% endfor %}
-            <a href="" class="btn btn-danger btn-sm">Usuń bilet</a>
+            <a href="{% url 'usun_bilet' profil.id %}" class="btn btn-danger btn-sm">Usuń bilet</a>
             </div>
 
         </div>

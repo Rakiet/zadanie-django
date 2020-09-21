@@ -3,7 +3,19 @@
 {% block tytul %} Usun {% endblock %}
 
 {% block strona %}
+    {% if usun_bilet %}
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+                <h1 class="display-4">Czy na pewno chcesz usunac bilet na "{{profil.bilet.film.tytul}}" na {{profil.bilet.data|date:"d/n/Y G:i"}}?</h1>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Usun bilet</button>
+                </form>
+                <a href="{% url 'wszystkie_filmy' %}" class="btn btn-info"> Anuluj</a>
 
+        </div>
+    </div>
+    {% else %}
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
                 <h1 class="display-4">Czy na pewno chcesz usunac "{{film.tytul}}"?</h1>
@@ -15,6 +27,7 @@
 
         </div>
     </div>
+    {% endif %}
 
 
 {% endblock %}
