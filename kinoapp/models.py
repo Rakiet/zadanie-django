@@ -41,7 +41,7 @@ class Ocena(models.Model):
 
 class Bilety(models.Model):
     data = models.DateTimeField(blank=True, null=True)
-    ilosc = models.PositiveSmallIntegerField(default=24)
+    ilosc = models.PositiveSmallIntegerField(default=1)
     film = models.ForeignKey(Kino, on_delete=models.CASCADE)
 
 

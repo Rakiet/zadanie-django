@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
+import operator
 
 
 
@@ -138,12 +139,17 @@ def potwierdz_zakup(request, id):
 
     return render(request, 'potwierdz-zakup.html',{'form_profile': form_profile, 'bilet': bilet})
 
-
+@login_required()
 def moje_bilety(request):
     user = get_object_or_404(User, pk=request.user.id)
     profile = Profile.objects.filter(user=user)
 
+    return render(request, 'moje_bilety.html', {'profile': profile})
 
 
-    return render(request, 'moje_bilety.html',{'bilet': profile})
+
+
+
+
+
 
