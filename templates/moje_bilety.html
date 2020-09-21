@@ -6,28 +6,52 @@
 
 
 
-{% for profil in profile %}
-      <div class="card mb-3" style="max-width: 580px;">
+{% for seanse, profil in profile %}
+
+      <div class="card mb-4" style="max-width: 800px;">
           <div class="col-ms">
-              <h5 class="card-title"><center>Bilet na: {{profil.bilet.film}}</center></h5>
+              <h5 class="card-title" style= "background-color: #7DBDB5"><center>Bilet na: {{profil.bilet.film}}</center></h5>
           </div>
   <div class="row no-gutters">
-    <div class="col-md-4">
+    <div class="col-md-2">
       <img src="/media/{{profil.bilet.film.plakat}}" class="film-plakat">
     </div>
-    <div class="col-md-8">
+    <div class="col-md-5">
 
       <div class="card-body">
 
         <p class="card-text">{{profil.bilet.film.opis}}</p>
           <p class="card-text"><small class="text-muted">Seans: {{ profil.bilet.data|date:"d/n/Y G:i" }}</small></p>
-        <a href="" class="btn btn-info" > Zmień seans </a>
+
+
 
       </div>
     </div>
+        <div class="col-md-5">
+            <div class="card-body">
+                {% if seanse.count > 1 %}
+                    <p class="card-text">Możliwa zamiana na inny seans:</p>
+                {% else %}
+                    <p class="card-text">Brak możliwości zamiany seansu:</p>
+                {% endif %}
+
+            {% for seans in seanse %}
+                {% if seans != profil.bilet %}
+                    <p class="card-text"><small class="text-muted">Seans: {{seans.data|date:"d/n/Y G:i"}}</small>
+                        <a href="{% url 'potwierdz_wymiane' profil.id seans.id %}" class="btn btn-info btn-sm">Zamień</a>
+                    </p>
+
+                {% endif %}
+            {% endfor %}
+
+            </div>
+
+        </div>
+
 
   </div>
 </div>
+
 
 {% endfor %}
 {% endblock %}

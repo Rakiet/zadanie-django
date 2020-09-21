@@ -1,6 +1,12 @@
 {% extends 'glowny.html' %}
 {% load bootstrap %}
-{% block tytul %} Kup Bilet {{ film.tytul }}{% endblock %}
+{% block tytul %}
+{% if wymiana_biletu %}
+    Wymien Bilet
+{% else %}
+    Kup Bilet
+{% endif %}
+{{ film.tytul }}{% endblock %}
 
 {% block strona %}
 

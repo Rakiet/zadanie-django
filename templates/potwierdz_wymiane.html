@@ -1,0 +1,20 @@
+{% extends 'glowny.html' %}
+{% load bootstrap %}
+{% block tytul %} Wymień Bilet {% endblock %}
+
+{% block strona %}
+
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+                <h1 class="display-4">Czy na pewno chcesz wymienić bilet: {{ bilet.film.tytul }} na {{ bilet.data|date:"d/n/Y G:i" }}</h1>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success">Wymien Bilet</button>
+                </form>
+                <a href="{% url 'moje_bilety' %}" class="btn btn-info"> Anuluj</a>
+
+        </div>
+    </div>
+
+
+{% endblock %}

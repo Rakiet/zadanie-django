@@ -122,7 +122,7 @@ def kup_bilet(request, id):
     bilet = Bilety.objects.filter(film=film)
 
 
-    return render(request, 'kup-bilet.html', {'film': film, 'bilety': bilet })
+    return render(request, 'kup-bilet.html', {'film': film, 'bilety': bilet, 'wymiana_biletu': False})
 
 
 def potwierdz_zakup(request, id):
@@ -143,9 +143,26 @@ def potwierdz_zakup(request, id):
 def moje_bilety(request):
     user = get_object_or_404(User, pk=request.user.id)
     profile = Profile.objects.filter(user=user)
+    pro = []
 
-    return render(request, 'moje_bilety.html', {'profile': profile})
+    for profil in profile:
+        pro.append((Bilety.objects.filter(film=profil.bilet.film),profil))
 
+    return render(request, 'moje_bilety.html', {'profile': pro})
+
+@login_required()
+def potwierdz_wymiane(request, profil_id, seans_id):
+    profil = get_object_or_404(Profile, pk=profil_id)
+    bilet = get_object_or_404(Bilety, pk=seans_id)
+
+    if request.method == "POST":
+
+        profil.bilet = Bilety(id=seans_id)
+        profil.save()
+        return redirect(moje_bilety)
+
+
+    return render(request, 'potwierdz_wymiane.html', {'profil': profil, 'bilet': bilet})
 
 
 
