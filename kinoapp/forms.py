@@ -42,4 +42,4 @@ class BiletyForm(ModelForm):
 class ProfileForm(ModelForm):
     class Meta:
         model = Profile
-        fields = ['tytul',]
+        fields = ['komentarz',]

@@ -6,7 +6,7 @@
 
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
-                <h1 class="display-4">Czy na pewno chcesz kupic bilet na seans: {{ bilet.film.tytul }} {{ bilet.data }}</h1>
+                <h1 class="display-4">Czy na pewno chcesz kupic bilet na seans: {{ bilet.film.tytul }} {{ bilet.data|date:"d/n/Y G:i" }}</h1>
                 <form method="post">
                     {% csrf_token %}
                     {{ form_profile|bootstrap }}

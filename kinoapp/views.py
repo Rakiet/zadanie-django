@@ -131,7 +131,7 @@ def potwierdz_zakup(request, id):
     form_profile = ProfileForm(request.POST or None)
 
     if request.method == 'POST':
-        if 'tytul' in request.POST:
+        if 'komentarz' in request.POST:
             profil = form_profile.save(commit=False)
             profil.user = User(id=request.user.id)
             profil.bilet = bilet

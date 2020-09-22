@@ -48,6 +48,6 @@ class Bilety(models.Model):
 class Profile(models.Model):
 
     user = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
-    tytul = models.CharField(max_length=64)
+    komentarz = models.CharField(max_length=64)
     bilet = models.ForeignKey(Bilety, on_delete=models.CASCADE)
 
