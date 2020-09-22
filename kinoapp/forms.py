@@ -24,13 +24,14 @@ class OcenaForm(ModelForm):
 
 
 class RejestracjaForm(UserCreationForm):
-    first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-    last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
+    email = forms.EmailField(max_length=254, help_text='Wymagany. Podaj prawidłowy adres e-mail.')
+    username = forms.CharField(help_text="Wymagany. Max 150 znaków.")
+    password1 = forms.CharField(help_text= "Twoje hasło nie może być zbyt podobne do Twoich innych danych osobowych. Twoje hasło musi zawierać co najmniej 8 znaków. Twoje hasło nie może być hasłem powszechnie używanym. Twoje hasło nie może składać się wyłącznie z liczb.", label="Hasło")
+    password2 = forms.CharField(help_text="Hasła muszą być identyczne", label="Powtórz hasło")
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'email', 'password1', 'password2', 'last_name')
+        fields = ('username', 'email', 'password1', 'password2')
 
 class BiletyForm(ModelForm):
 

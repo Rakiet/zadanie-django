@@ -23,8 +23,9 @@
                 {% endif %}
             {% else %}
 
-                <h1 class="display-4">Witaj, nieznajomy, zaloguj sie.</h1>
+                <h1 class="display-4">Witaj, nieznajomy, zaloguj sie, lub zarejestruj.</h1>
                 <a href="{% url 'login' %}" class="btn btn-info" ><i class="fas fa-sign-in-alt"> Login</i></a>
+                <a href="{% url 'rejestracja' %}" class="btn btn-success" >Rejestracja</i></a>
             {% endif %}
 
         </div>
