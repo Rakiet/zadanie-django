@@ -7,6 +7,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
 from datetime import datetime, timezone
+from django.db.models import Count
 import operator
 
 
@@ -23,13 +24,10 @@ def wszystkie_filmy(request):
         user:None
 
 
+    dostepne = Bilety.objects.values('film', 'film__tytul', 'film__opis', 'film__plakat').annotate(Count('film'))
 
-    for film in wszyskie:
-        for bilet in bilety:
-            if bilet.film == film:
-                film.bilety_czy_dostepne = True
 
-    return render(request, 'filmy.html', {'filmy': wszyskie, 'bilety': bilety, 'ile_biletow': ile})
+    return render(request, 'filmy.html', { 'bilety': bilety, 'ile_biletow': ile, 'dostepne': dostepne})
 
 @staff_member_required
 def nowy_film(request):
