@@ -1,6 +1,6 @@
-from rest_framework import generics
-from ...models  import Kino
-from .serializers import KinoSerializer
+from rest_framework import generics, viewsets
+from ...models  import Kino, Bilety
+from .serializers import KinoSerializer, BiletySerializer
 
 class KinoListView(generics.ListAPIView):
     queryset = Kino.objects.all()
@@ -9,3 +9,9 @@ class KinoListView(generics.ListAPIView):
 class KinoDetailView(generics.RetrieveAPIView):
     queryset = Kino.objects.all()
     serializer_class = KinoSerializer
+
+
+
+class BiletyListView(generics.ListAPIView):
+    queryset = Bilety.objects.all()
+    serializer_class = BiletySerializer
