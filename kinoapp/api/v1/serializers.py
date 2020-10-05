@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+
 from kinoapp.models import Kino, Bilety, Profile
 
 
@@ -40,3 +41,4 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['komentarz', 'user', 'bilet']
+
