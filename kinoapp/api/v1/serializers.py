@@ -41,11 +41,10 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ['komentarz', 'user', 'bilet']
 
-
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'password', 'first_name', 'last_name')
+        fields = ('id', 'username', 'password')
         extra_kwargs = {
             'password': {'write_only': True},
         }
@@ -60,3 +59,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+
+class AddProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['komentarz', 'user', 'bilet']
+
