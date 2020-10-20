@@ -39,7 +39,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['komentarz', 'user', 'bilet']
+        fields = ['id','komentarz', 'user', 'bilet']
 
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -63,5 +63,5 @@ class UserSerializer(serializers.ModelSerializer):
 class AddProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['komentarz', 'user', 'bilet']
+        fields = ['id', 'komentarz', 'user', 'bilet']
 

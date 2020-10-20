@@ -32,9 +32,12 @@ class BiletyUserListView(generics.ListAPIView):
         return profile
 
 
+
 class BiletyListView(generics.ListAPIView):
     queryset = Bilety.objects.all()
     serializer_class = BiletySerializer
+
+
 
 class RegisterApi(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -48,7 +51,7 @@ class RegisterApi(generics.GenericAPIView):
             "message": "User Created Successfully.  Now perform Login to get your token",
         })
 
-class AddBiletView(viewsets.ViewSet):
+class AddBiletView(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = AddProfileSerializer
 
@@ -60,3 +63,16 @@ class AddBiletView(viewsets.ViewSet):
                                    bilet_id=request.data['bilet'])
         serializer = AddProfileSerializer(profile, many=False)
         return Response(serializer.data)
+
+    def update(self, request, *args, **kwargs):
+        # if request.user.is_superuser:
+        profil = self.get_object()
+        profil.komentarz=request.data['komentarz']
+        profil.save()
+        serializer = AddProfileSerializer(profil, many=False)
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        profil = self.get_object()
+        profil.delete()
+        return Response('Ticket destroy')
