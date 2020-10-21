@@ -7,8 +7,6 @@ from .serializers import KinoSerializer, BiletySerializer, ProfileSerializer, Us
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from django.contrib.auth.models import User
-
-
 from datetime import datetime, timezone
 
 class KinoListView(generics.ListAPIView):
@@ -76,3 +74,29 @@ class AddBiletView(viewsets.ModelViewSet):
         profil = self.get_object()
         profil.delete()
         return Response('Ticket destroy')
+
+    @action(detail=True, methods=['post'])
+    def change_ticket(self, request, *args, **kwargs):
+        time_now = datetime.now(timezone.utc)
+        profil = self.get_object()
+        id_ticket=profil.bilet.id
+        ticket = Bilety.objects.filter(id=id_ticket)
+        serializerBilet = BiletySerializer(ticket, many=True)
+        returnInfo=Response('your ticket is too old')
+
+
+
+#przypisz nowy bilet jezeli ten nie stracił ważności
+        if time_now < profil.bilet.data:
+            newTicket = get_object_or_404(Bilety, pk=request.data['bilet'])
+            if time_now < newTicket.data:
+                editTicket = self.get_object()
+                editTicket.bilet_id = request.data['bilet']
+                editTicket.save()
+                returnInfo = Response(serializerBilet.data)
+            else:
+                returnInfo = Response('new ticket is too old')
+
+        return returnInfo
+
+

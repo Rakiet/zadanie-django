@@ -147,7 +147,7 @@ def moje_bilety(request):
 
     for profil in profile:
         if profil.bilet.data > data_teraz:
-                pro.append((Bilety.objects.filter(film=profil.bilet.film),profil))
+            pro.append((Bilety.objects.filter(film=profil.bilet.film),profil))
         else:
             pro.append(((), profil))
 
