@@ -25,7 +25,7 @@ class BiletyUserListView(generics.ListAPIView):
     serializer_class = ProfileSerializer
 
     def get_queryset(self):
-        user = get_object_or_404(User, pk=1)
+        user = get_object_or_404(User, pk=self.request.user.id)
 
         profile = Profile.objects.filter(user=user)
 
