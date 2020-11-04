@@ -1,5 +1,6 @@
 from rest_framework import generics, viewsets
 from rest_framework.decorators import action
+from rest_framework.exceptions import ValidationError
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from ...models  import Kino, Bilety, Profile
@@ -8,6 +9,9 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from django.contrib.auth.models import User
 from datetime import datetime, timezone
+from rest_framework_simplejwt import authentication
+
+
 
 class KinoListView(generics.ListAPIView):
     queryset = Kino.objects.all()
@@ -21,7 +25,7 @@ class BiletyUserListView(generics.ListAPIView):
     serializer_class = ProfileSerializer
 
     def get_queryset(self):
-        user = get_object_or_404(User, pk=2)
+        user = get_object_or_404(User, pk=1)
 
         profile = Profile.objects.filter(user=user)
 
@@ -64,6 +68,7 @@ class AddBiletView(viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         # if request.user.is_superuser:
+
         profil = self.get_object()
         profil.komentarz=request.data['komentarz']
         profil.save()
@@ -77,25 +82,28 @@ class AddBiletView(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'])
     def change_ticket(self, request, *args, **kwargs):
+
         time_now = datetime.now(timezone.utc)
         profil = self.get_object()
         id_ticket=profil.bilet.id
         ticket = Bilety.objects.filter(id=id_ticket)
         serializerBilet = BiletySerializer(ticket, many=True)
-        returnInfo=Response('your ticket is too old')
+        returnInfo = Response('error')
 
-
-
-#przypisz nowy bilet jezeli ten nie stracił ważności
-        if time_now < profil.bilet.data:
-            newTicket = get_object_or_404(Bilety, pk=request.data['bilet'])
-            if time_now < newTicket.data:
-                editTicket = self.get_object()
-                editTicket.bilet_id = request.data['bilet']
-                editTicket.save()
-                returnInfo = Response(serializerBilet.data)
+        if profil.user.id == request.user.id:
+            if time_now < profil.bilet.data:
+                newTicket = get_object_or_404(Bilety, pk=request.data['bilet'])
+                if time_now < newTicket.data:
+                    editTicket = self.get_object()
+                    editTicket.bilet_id = request.data['bilet']
+                    editTicket.save()
+                    returnInfo = Response(serializerBilet.data)
+                else:
+                    returnInfo = Response('new ticket is too old')
             else:
-                returnInfo = Response('new ticket is too old')
+                returnInfo = Response('your ticket is too old')
+        else:
+            returnInfo = Response('the user is not the owner of the ticket')
 
         return returnInfo
 
