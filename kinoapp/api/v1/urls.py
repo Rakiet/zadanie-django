@@ -8,6 +8,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 router = routers.DefaultRouter()
 
 router.register(r'add_ticket', views.AddBiletView)
+router.register(r'add_rating', views.AddRatingView)
 
 urlpatterns = [
     path('kino/', views.KinoListView.as_view(), name='kino_list'),

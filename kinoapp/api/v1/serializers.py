@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from kinoapp.models import Kino, Bilety, Profile
+from kinoapp.models import Kino, Bilety, Profile, Ocena
 from django.contrib.auth.models import User
 
 
@@ -10,6 +10,11 @@ class BiletySerializer(serializers.ModelSerializer):
     class Meta:
         model = Bilety
         fields = ['id', 'data', 'film_id']
+
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ocena
+        fields = '__all__'
 
 
 class KinoSerializer(serializers.ModelSerializer):

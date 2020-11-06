@@ -1,17 +1,11 @@
 from rest_framework import generics, viewsets
 from rest_framework.decorators import action
-from rest_framework.exceptions import ValidationError
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from ...models  import Kino, Bilety, Profile
-from .serializers import KinoSerializer, BiletySerializer, ProfileSerializer, UserSerializer, RegisterSerializer, AddProfileSerializer
+from ...models  import Kino, Bilety, Profile, Ocena
+from .serializers import KinoSerializer, BiletySerializer, ProfileSerializer, UserSerializer, RegisterSerializer, AddProfileSerializer, RatingSerializer
 from django.shortcuts import get_object_or_404
-from rest_framework import status
 from django.contrib.auth.models import User
 from datetime import datetime, timezone
-
-from django.db.models import Count
-from rest_framework_simplejwt import authentication
 
 
 
@@ -54,6 +48,26 @@ class RegisterApi(generics.GenericAPIView):
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
             "message": "User Created Successfully.  Now perform Login to get your token",
         })
+
+class AddRatingView(viewsets.ModelViewSet):
+    queryset = Ocena.objects.all()
+
+    def create(self, request):
+        movie = Kino.objects.filter(id=request.data['film_id'])
+        if not movie:
+            return Response('the movie does not exist')
+
+        elif(request.data['gwiazdki'] > 10 or request.data['gwiazdki'] < 1):
+
+            return Response('the score must be 1 to 10')
+        else:
+            rating = Ocena.objects.create(autor=request.user.username,
+                                        recenzja=request.data['recenzja'],
+                                        gwiazdki=request.data['gwiazdki'],
+                                        film_id=request.data['film_id'])
+            serializer = RatingSerializer(rating, many=False)
+            return Response(serializer.data)
+
 
 class AddBiletView(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
