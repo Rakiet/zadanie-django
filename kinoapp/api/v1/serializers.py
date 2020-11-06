@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 class BiletySerializer(serializers.ModelSerializer):
     class Meta:
         model = Bilety
-        fields = ['id', 'ilosc', 'data', 'film']
+        fields = ['id', 'data', 'film_id']
 
 
 class KinoSerializer(serializers.ModelSerializer):

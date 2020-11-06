@@ -9,6 +9,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from django.contrib.auth.models import User
 from datetime import datetime, timezone
+
+from django.db.models import Count
 from rest_framework_simplejwt import authentication
 
 
@@ -59,26 +61,34 @@ class AddBiletView(viewsets.ModelViewSet):
 
 
     def create(self, request):
-        # if request.user.is_superuser:
-        profile = Profile.objects.create(komentarz=request.data['komentarz'],
-                                   user_id=request.data['user'],
-                                   bilet_id=request.data['bilet'])
-        serializer = AddProfileSerializer(profile, many=False)
-        return Response(serializer.data)
+        ticket = Bilety.objects.filter(id=request.data['bilet'])
+        if not ticket:
+            return Response('the ticket does not exist')
+        else:
+            profile = Profile.objects.create(komentarz=request.data['komentarz'],
+                                       user_id=request.user.id,
+                                       bilet_id=request.data['bilet'])
+            serializer = AddProfileSerializer(profile, many=False)
+            return Response(serializer.data)
 
     def update(self, request, *args, **kwargs):
         # if request.user.is_superuser:
-
         profil = self.get_object()
-        profil.komentarz=request.data['komentarz']
-        profil.save()
-        serializer = AddProfileSerializer(profil, many=False)
-        return Response(serializer.data)
+        if profil.user.id == request.user.id:
+            profil.komentarz=request.data['komentarz']
+            profil.save()
+            serializer = AddProfileSerializer(profil, many=False)
+            return Response(serializer.data)
+        else:
+            return Response('the user is not the owner of the ticket')
 
     def destroy(self, request, *args, **kwargs):
         profil = self.get_object()
-        profil.delete()
-        return Response('Ticket destroy')
+        if profil.user.id == request.user.id:
+            profil.delete()
+            return Response('Ticket destroy')
+        else:
+            return Response('the user is not the owner of the ticket')
 
     @action(detail=True, methods=['post'])
     def change_ticket(self, request, *args, **kwargs):
