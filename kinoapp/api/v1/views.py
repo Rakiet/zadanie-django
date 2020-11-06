@@ -51,6 +51,7 @@ class RegisterApi(generics.GenericAPIView):
 
 class AddRatingView(viewsets.ModelViewSet):
     queryset = Ocena.objects.all()
+    serializer_class = RegisterSerializer
 
     def create(self, request):
         movie = Kino.objects.filter(id=request.data['film_id'])
@@ -68,6 +69,26 @@ class AddRatingView(viewsets.ModelViewSet):
             serializer = RatingSerializer(rating, many=False)
             return Response(serializer.data)
 
+    def update(self, request, *args, **kwargs):
+        # if request.user.is_superuser:
+        rating = self.get_object()
+        if rating.autor == request.user.username:
+            rating.recenzja=request.data['recenzja']
+            rating.gwiazdki = request.data['gwiazdki']
+            rating.save()
+            serializer = RatingSerializer(rating, many=False)
+            return Response(serializer.data)
+        else:
+            return Response('the user is not the owner of the rating')
+
+    def destroy(self, request, *args, **kwargs):
+        rating = self.get_object()
+        if rating.autor == request.user.username:
+            rating.delete()
+            return Response('Rating destroy')
+        else:
+            return Response('the user is not the owner of the rating')
+
 
 class AddBiletView(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
@@ -84,6 +105,9 @@ class AddBiletView(viewsets.ModelViewSet):
                                        bilet_id=request.data['bilet'])
             serializer = AddProfileSerializer(profile, many=False)
             return Response(serializer.data)
+
+
+
 
     def update(self, request, *args, **kwargs):
         # if request.user.is_superuser:
